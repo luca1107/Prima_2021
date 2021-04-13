@@ -18,4 +18,4 @@ var SpaceInvaders;
     MotherShip.material = new ƒ.Material("MotherShipMat", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0.2, 0.2, 1)));
     SpaceInvaders.MotherShip = MotherShip;
 })(SpaceInvaders || (SpaceInvaders = {}));
-//# sourceMappingURL=Mothership.js.map
+//# sourceMappingURL=MotherShip.js.map

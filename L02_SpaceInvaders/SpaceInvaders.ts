@@ -4,18 +4,35 @@ namespace SpaceInvaders {
   let viewport: ƒ.Viewport = new ƒ.Viewport();
   let ship: Ship;
   let speedShip: number = 5;
+  let projectiles: ƒ.Node = new ƒ.Node("Projectiles");
+  let invaders: ƒ.Node = new ƒ.Node("Invaders");
+
+  let borderRight : QuadNode;
+  let borderLeft : QuadNode;
+
+  let direction: number = 1;
+  let verticalShift: boolean=false;
 
   function init(_event: Event): void {
     const canvas: HTMLCanvasElement = document.querySelector("canvas");
+
+    borderRight = new QuadNode("borderRight",new ƒ.Vector2(8.5,6),new ƒ.Vector2(.3,14));
+    borderLeft = new QuadNode("borderLeft",new ƒ.Vector2(-8.5,6),new ƒ.Vector2(.3,14));
+   
 
     let space: ƒ.Node = new ƒ.Node("Space");
     ship = Ship.getInstance();
     space.addChild(ship);
     space.addChild(MotherShip.getInstance());
+    space.addChild(projectiles);
+    space.addChild(borderRight);
 
-    let invaders: ƒ.Node = new ƒ.Node("Invaders");
+    invaders.addComponent(new ƒ.ComponentTransform());
+
     let columnCount: number = 11;
     let rowCount: number = 5;
+
+    
 
     for (let row: number = 0; row < rowCount; ++row) {
       for (let column: number = 0; column < columnCount; ++column) {
@@ -42,8 +59,8 @@ namespace SpaceInvaders {
 
     space.addChild(barricades);
 
-    let projectiles: ƒ.Node = new ƒ.Node("Projectiles");
-
+   
+/*
     let projectile0Pos: ƒ.Vector2 = new ƒ.Vector2();
     projectile0Pos.x = 0;
     projectile0Pos.y = 1;
@@ -57,6 +74,7 @@ namespace SpaceInvaders {
     projectiles.addChild(new Projectile(projectile1Pos));
 
     space.addChild(projectiles);
+    */
 
     let cmpCamera: ƒ.ComponentCamera = new ƒ.ComponentCamera();
     cmpCamera.mtxPivot.translateZ(18);
@@ -80,9 +98,77 @@ namespace SpaceInvaders {
     if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT]))
       ship.mtxLocal.translateX(-offset);
 
+
     if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT]))
       ship.mtxLocal.translateX(+offset);
 
+    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE]))
+    {
+      let projectile : Projectile = new Projectile(ship.mtxLocal.translation.toVector2());
+      projectiles.addChild(projectile);
+    }
+
+    for (let projectile of <Projectile[]> projectiles.getChildren() )
+    {
+      projectile.move();
+      if(projectile.mtxLocal.translation.y >13)
+      {
+        projectiles.removeChild(projectile);
+      }
+
+    }
+
+    moveInvaders();
+     
+    checkProjectileCollision();
     viewport.draw();
+  }
+
+
+  function moveInvaders():void
+  {
+    invaders.mtxLocal.translateX(0.02 * direction);
+    
+    for (let invader of invaders.getChildren() as Invader[]) {
+      //invader.mtxLocal.translateX(0.02 * direction);
+      invader.setRectPosition(invaders.mtxLocal.translation.toVector2());
+      if(invader.checkCollision(borderRight))
+      {
+        if(!verticalShift)
+        invaders.mtxLocal.translateY(-0.3);
+
+        verticalShift=true;
+        direction=-1;
+        /*for (let invader of invaders.getChildren() as Invader[]) {
+          invader.mtxLocal.translateY(-0.3);
+        invader.setRectPosition();
+        }*/
+        
+      }
+      else if(invader.checkCollision(borderLeft))
+      {
+        if(verticalShift)
+        invaders.mtxLocal.translateY(-0.3);
+
+        verticalShift=false;
+        direction=1;
+        /*for (let invader of invaders.getChildren() as Invader[]) {
+          invader.mtxLocal.translateY(-0.3);
+        invader.setRectPosition();
+        }*/
+      }
+    }
+   
+  }
+
+  function checkProjectileCollision(): void {
+    for (let projectile of projectiles.getChildren() as Projectile[]) {
+      for (let invader of invaders.getChildren() as Invader[]) {
+        if (projectile.checkCollision(invader)) {
+          projectiles.removeChild(projectile);
+          invaders.removeChild(invader);
+        }
+      }
+    }
   }
 }

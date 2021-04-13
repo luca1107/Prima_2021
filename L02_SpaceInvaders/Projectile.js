@@ -7,6 +7,10 @@ var SpaceInvaders;
             let scale = new ƒ.Vector2(1 / 13, 5 / 13);
             super("Projectile" + (++Projectile.count), _pos, scale);
         }
+        move() {
+            this.mtxLocal.translateY(5 * ƒ.Loop.timeFrameReal / 1000);
+            this.setRectPositionWithoutParent();
+        }
     }
     Projectile.count = 0;
     SpaceInvaders.Projectile = Projectile;
