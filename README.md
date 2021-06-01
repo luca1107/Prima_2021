@@ -37,19 +37,3 @@ Repository for the module "Prototyping interactive media-applications and games"
   * Eine kurze Anleitung zur Installation der Anwendung unter Berücksichtigung erforderlicher Dienste (z.B. Heroku, MongoDB etc.) 
   * Eine kurze Anleitung zur Interaktion mit der Anwendung
 
-## GameZone
-Wenn Du dein Spiel bei der Dauerausstellung "GameZone" am Tag der Medien sehen möchtest, ergänze folgendes  
-* Einen Ordner mit zwei Screenshots der laufenden Applikation in den Größen 250x100 und 1920x400 pixel sowie ein Textdokument mit den Informationen:
-* Titel
-* Autor
-* Jahr und Semester der Entwicklung (Sose, Wise)
-* Studiensemester
-* Lehrplansemester
-* Studiengang
-* Veranstaltung im Rahmen derer die Entwicklung durchgeführt wurde
-* betreuender Dozent
-* Genre des Spiels
-* ggf. passende Tags/ Schlagwörter zu dem Spiel
-* Untertitel (max 40 Zeichen), der Menschen zum Spielen animiert
-* Kurzbeschreibung (max 250 Zeichen), die kurz erklärt wie zu spielen ist
-* Erklärung, dass die Fakultät Digitale Medien die Anwendung bei Veranstaltungen, insbesondere am Tag der Medien, mit einem expliziten Verweis auf den Autor, vorführen darf.
